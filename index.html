@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surat Cinta Keempat 💌</title>
+    <title>Surat Cinta Keempat Untukmu 💌</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,6 +11,8 @@
             --pink-medium: #ff8fab;
             --pink-light: #ffb3c1;
             --white: #ffffff;
+            --line-color: #e0e0e0;
+            --margin-line: #ffadad;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,21 +27,14 @@
             background: #ffe5ec;
         }
 
-        /* Latar Belakang Hati */
-        .bg-hearts {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-        }
-
+        /* Background Hati Bergerak */
+        .bg-hearts { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
         .heart-float {
             position: absolute;
             color: rgba(251, 111, 146, 0.2);
             font-size: 20px;
             animation: floatUp 6s linear infinite;
         }
-
         @keyframes floatUp {
             0% { transform: translateY(110vh) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
@@ -58,30 +53,11 @@
             z-index: 999;
             transition: 0.8s ease-in-out;
         }
-
         .welcome-screen.hide { opacity: 0; visibility: hidden; }
+        .welcome-screen h1 { color: white; font-family: 'Dancing Script', cursive; font-size: 2.5rem; margin-bottom: 30px; text-align: center; }
+        .btn-start { padding: 15px 40px; background: var(--pink-dark); color: white; border: none; border-radius: 50px; font-size: 1.2rem; cursor: pointer; box-shadow: 0 5px 20px rgba(251, 111, 146, 0.4); }
 
-        .welcome-screen h1 {
-            color: white;
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .btn-start {
-            padding: 15px 40px;
-            background: var(--pink-dark);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 5px 20px rgba(251, 111, 146, 0.4);
-            transition: 0.3s;
-        }
-
-        /* Envelope Logic */
+        /* Envelope */
         .envelope-wrapper {
             position: relative;
             width: 320px;
@@ -93,7 +69,7 @@
             z-index: 10;
         }
 
-        /* Kertas Surat (Awalnya tersembunyi di dalam) */
+        /* Kertas Surat dengan Garis Buku */
         .letter {
             position: absolute;
             bottom: 10px;
@@ -102,38 +78,33 @@
             width: 90%;
             height: 90%;
             background: var(--white);
-            z-index: 2; /* Di bawah lipatan depan */
-            padding: 30px 25px;
+            z-index: 2;
+            padding: 40px 30px 30px 50px; /* Padding kiri lebih besar untuk garis margin */
             border-radius: 5px;
             transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: hidden; /* Mencegah teks meluap saat tertutup */
+            overflow: hidden;
+            
+            /* Background Garis Buku */
+            background-image: 
+                linear-gradient(var(--margin-line) 0%, var(--margin-line) 100%), /* Garis margin merah */
+                linear-gradient(var(--line-color) 1px, transparent 1px); /* Garis biru/abu buku */
+            background-size: 2px 100%, 100% 28px; /* Ukuran garis: margin merah 2px, jarak baris 28px */
+            background-position: 40px 0, 0 35px; /* Posisi margin 40px dari kiri */
+            background-repeat: no-repeat, repeat;
         }
 
-        /* Penutup Atas (Flap) */
         .flap {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 0;
+            top: 0; left: 0;
             border-left: 160px solid transparent;
             border-right: 160px solid transparent;
             border-top: 130px solid var(--pink-dark);
             transform-origin: top;
             transition: transform 0.6s ease, z-index 0.2s;
-            z-index: 5; /* Paling depan saat tertutup */
+            z-index: 5;
         }
 
-        /* Lipatan Depan (Biar surat gak kelihatan bolong) */
-        .pocket {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 4; /* Di atas surat, di bawah flap */
-        }
-
+        .pocket { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; z-index: 4; }
         .pocket::before {
             content: '';
             position: absolute;
@@ -145,15 +116,11 @@
             border-radius: 0 0 10px 10px;
         }
 
-        /* Animasi Saat Dibuka */
-        .envelope-wrapper.open .flap {
-            transform: rotateX(180deg);
-            z-index: 1; /* Pindah ke belakang saat terbuka */
-        }
-
+        /* Open State */
+        .envelope-wrapper.open .flap { transform: rotateX(180deg); z-index: 1; }
         .envelope-wrapper.open .letter {
             width: 340px;
-            height: 480px;
+            height: 500px;
             bottom: 50%;
             transform: translate(-50%, 50%);
             z-index: 100;
@@ -161,29 +128,30 @@
             box-shadow: 0 30px 60px rgba(0,0,0,0.2);
         }
 
-        /* Teks di dalam surat */
-        .letter-content { color: #444; line-height: 1.8; }
+        .letter-content { 
+            color: #444; 
+            line-height: 28px; /* Harus sama dengan background-size garis (28px) */
+            font-size: 0.95rem;
+        }
         .letter-content h2 { 
             font-family: 'Dancing Script', cursive; 
             color: var(--pink-dark); 
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            line-height: 1.2;
         }
         .signature {
             text-align: right;
-            margin-top: 30px;
+            margin-top: 28px;
             font-family: 'Dancing Script', cursive;
             color: var(--pink-dark);
             font-size: 1.3rem;
         }
 
         #canvas { position: fixed; inset: 0; pointer-events: none; z-index: 200; }
-        
         .hint {
-            position: absolute;
-            bottom: -50px; width: 100%; text-align: center;
-            color: var(--pink-dark); font-weight: bold;
-            animation: bounce 2s infinite;
+            position: absolute; bottom: -50px; width: 100%; text-align: center;
+            color: var(--pink-dark); font-weight: bold; animation: bounce 2s infinite;
         }
         @keyframes bounce { 0%,100% {transform:translateY(0)} 50% {transform:translateY(-10px)} }
     </style>
@@ -194,7 +162,7 @@
     <canvas id="canvas"></canvas>
 
     <div class="welcome-screen" id="welcome">
-        <h1>Ada surat cinta spesial,<br>Buka yuk? ❤️</h1>
+        <h1>Halo Cantik,<br>Ada surat cinta keempat untukmu ❤️</h1>
         <button class="btn-start" onclick="start()">Buka Sekarang ✨</button>
     </div>
 
@@ -208,6 +176,7 @@
                 <p>Haiii sayangkuuuu, cintakuuu, maniskuuu, cantikkuuuu, semestakuu, dan kebanggaankuuu yang sangatttt sangattt sangatttt akuu cintaiiiii melebihi apapunnnn😘.</p>
                 <p>Sekarang udah tanggal 02 februari 2026. Ga kerasa ya aku udah buat love letter untuk kamu selama 1 bulan ini, semoga perasaan kita tetap sama💕.</p>
                 <p>Di minggu ini kita gaada marah-marahann hihihi. Kalau aku diam, itu bukan karena bosan ya! Aku cuma lagi banyak pikiran sayang.</p>
+                <p>Sayanggg, aku beneran sudah di fase butuh kamu banget di hidupku. Terima kasih sudah mau menerima aku apa adanya😢.</p>
                 <p>Aku ingin jadi penyembuh luka kamu, bukan luka baru. Aku ingin kamu bahagia bersamaku selamanya.</p>
                 <p>Harapanku minggu ini, kita terus bersama, saling percaya, dan setia. Aku percaya kamu gaakan khianatin aku.</p>
                 <p>Terima kasih ya sayang sudah membaca ini. I Love You! ❤️</p>
@@ -220,7 +189,6 @@
     <audio id="lagu" loop><source src="love.mp3" type="audio/mpeg"></audio>
 
     <script>
-        // Efek Hati Melayang di Background
         function createHearts() {
             const container = document.getElementById('heartContainer');
             const heart = document.createElement('div');
@@ -246,7 +214,6 @@
             }
         }
 
-        // Particle effect sederhana
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         let pts = [];
@@ -255,7 +222,7 @@
                 pts.push({
                     x: window.innerWidth/2, y: window.innerHeight/2,
                     vx: (Math.random()-0.5)*12, vy: (Math.random()-0.5)*12,
-                    size: Math.random()*5+2, color: '#fb6f92', life: 1
+                    size: Math.random()*5+2, life: 1
                 });
             }
         }
