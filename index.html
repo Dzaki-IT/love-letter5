@@ -3,302 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surat Cinta Untukmu 💌</title>
+    <title>Surat Cinta Spesial 💌</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --pink-dark: #fb6f92;
             --pink-medium: #ff8fab;
             --pink-light: #ffb3c1;
-            --paper-white: #ffffff;
+            --paper: #ffffff;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: #ffe5ec;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            background: #ffe5ec;
         }
 
-        /* Latar belakang yang lebih estetik */
-        .bg-gradient {
+        /* Latar Belakang Love */
+        .bg-hearts {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, #ffc2d1 0%, #ffe5ec 50%, #ff8fab 100%);
             z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            color: rgba(251, 111, 146, 0.3);
+            font-size: 20px;
+            animation: float 6s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
         }
 
         /* Welcome Screen */
         .welcome-screen {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 2000;
-            transition: 1s ease-in-out;
+            transition: 0.8s ease;
         }
 
-        .welcome-screen.hide {
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(1.2);
-        }
+        .welcome-screen.hide { opacity: 0; visibility: hidden; }
 
         .welcome-screen h1 {
             color: white;
             font-family: 'Dancing Script', cursive;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 2.8rem;
+            margin-bottom: 25px;
             text-align: center;
         }
 
         .start-btn {
-            padding: 12px 35px;
+            padding: 15px 40px;
             background: var(--pink-dark);
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
             transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(251, 111, 146, 0.4);
+            box-shadow: 0 5px 20px rgba(251, 111, 146, 0.5);
         }
 
-        /* Main Container */
+        /* Envelope Wrapper */
+        .container { position: relative; z-index: 10; cursor: pointer; }
+
         .envelope-wrapper {
             position: relative;
             width: 300px;
             height: 200px;
-            z-index: 10;
-            transition: 0.5s ease;
-        }
-
-        /* Envelope Design */
-        .envelope {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            background: var(--pink-dark);
+            background: var(--pink-medium);
             border-radius: 0 0 10px 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
 
+        /* Penutup Depan (Pocket) */
+        .envelope-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 110px solid var(--pink-light);
+            z-index: 10;
+            border-radius: 0 0 10px 10px;
+        }
+
+        /* Sisi Kiri & Kanan Amplop */
+        .envelope-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid transparent;
+            border-left: 150px solid var(--pink-medium);
+            z-index: 9;
+        }
+
+        .side-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 0;
+            border-top: 100px solid transparent;
+            border-bottom: 100px solid transparent;
+            border-right: 150px solid var(--pink-medium);
+            z-index: 9;
+        }
+
+        /* Flap (Penutup Atas) */
         .flap {
             position: absolute;
             top: 0;
-            border-left: 150px solid transparent;
-            border-right: 150px solid transparent;
-            border-top: 110px solid var(--pink-medium);
-            transform-origin: top;
-            transition: transform 0.6s 0.2s ease, z-index 0.4s 0.4s;
-            z-index: 5;
-        }
-
-        .pocket {
-            position: absolute;
-            bottom: 0;
             width: 0;
             height: 0;
-            border-left: 150px solid #ffb3c1;
-            border-right: 150px solid #ffb3c1;
-            border-bottom: 100px solid #ffc2d1;
-            z-index: 4;
-            border-radius: 0 0 10px 10px;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 120px solid var(--pink-dark);
+            transform-origin: top;
+            transition: transform 0.6s ease;
+            z-index: 11; /* Di paling depan agar menutupi segalanya */
         }
 
-        /* The Letter - Updated Position */
+        /* Letter */
         .letter {
             position: absolute;
             left: 50%;
-            bottom: 5px;
+            bottom: 10px;
             transform: translateX(-50%);
             width: 90%;
-            height: 80%;
-            background: var(--paper-white);
+            height: 90%;
+            background: white;
+            z-index: 5;
+            padding: 25px;
+            transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
             border-radius: 5px;
-            z-index: 2;
-            padding: 20px;
-            transition: 1s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        /* Open State Transitions */
-        .envelope-wrapper.open .flap {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        .envelope-wrapper.open .letter {
+        /* Open States */
+        .container.open .flap { transform: rotateX(180deg); z-index: 1; }
+        
+        .container.open .letter {
             width: 320px;
             height: 450px;
             bottom: 50%;
-            transform: translate(-50%, 50%); /* Membawa ke tengah layar */
+            transform: translate(-50%, 50%);
             z-index: 100;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
             overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            padding: 30px 25px; /* Padding lebih luas agar sisi kanan aman */
+            padding: 35px 25px;
         }
 
-        /* Content Styling */
-        .letter-text {
-            color: #444;
-            line-height: 1.8;
-            font-size: 0.95rem;
-            text-align: left;
-        }
-
-        .letter-text h2 {
-            font-family: 'Dancing Script', cursive;
-            color: var(--pink-dark);
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+        /* Letter Content */
+        .letter-content { color: #333; line-height: 1.7; font-size: 1rem; }
+        .letter-content h2 { 
+            font-family: 'Dancing Script', cursive; 
+            color: var(--pink-dark); 
             text-align: center;
-        }
-
-        .letter-text p {
+            font-size: 2rem;
             margin-bottom: 15px;
         }
-
-        /* Scrollbar Styling */
-        .letter::-webkit-scrollbar {
-            width: 5px;
-        }
-        .letter::-webkit-scrollbar-thumb {
-            background: var(--pink-light);
-            border-radius: 10px;
-        }
-
-        /* Particles Canvas */
-        #canvas {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 150;
-        }
-
         .signature {
-            margin-top: 25px;
             text-align: right;
+            margin-top: 25px;
             font-family: 'Dancing Script', cursive;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             color: var(--pink-dark);
         }
 
         .hint {
             position: absolute;
-            bottom: -40px;
+            bottom: -50px;
             width: 100%;
             text-align: center;
             color: var(--pink-dark);
-            font-weight: 500;
+            font-weight: bold;
             animation: bounce 2s infinite;
         }
 
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @keyframes bounce { 0%,100% {transform: translateY(0);} 50% {transform: translateY(-10px);} }
+        
+        #canvas { position: fixed; inset: 0; pointer-events: none; z-index: 150; }
     </style>
 </head>
 <body>
 
-    <div class="bg-gradient"></div>
+    <div class="bg-hearts" id="heartBg"></div>
     <canvas id="canvas"></canvas>
 
     <div class="welcome-screen" id="welcome">
-        <h1>Ada sesuatu untukmu,<br><span id="guestName">Sayang</span> 💌</h1>
-        <button class="start-btn" onclick="init()">Buka Sekarang ✨</button>
+        <h1>Halo Cantik,<br>Ada pesan untukmu 💌</h1>
+        <button class="start-btn" onclick="startApp()">Buka Sekarang ✨</button>
     </div>
 
-    <div class="envelope-wrapper" id="wrapper" onclick="openLetter()">
-        <div class="flap"></div>
-        <div class="pocket"></div>
-        
-        <div class="letter">
-            <div class="letter-text">
-                <h2>Untuk <span id="toName">Cintaku</span> ❤️</h2>
-                <p>Haiii sayangkuuuu, cintakuuu, maniskuuu, cantikkuuuu, semestakuu, dan kebanggaankuuu yang sangatttt sangattt sangatttt akuu cintaiiiii melebihi apapunnnn😘.</p>
-                <p>Sekarang udah tanggal 02 februari 2026. Ga kerasa ya aku udah buat love letter untuk kamu selama 1 bulan ini, semoga perasaan kita tetap sama, yaitu saling mencintai satu sama lain💕.</p>
-                <p>Di minggu ini kita gaada marah-marahann hihihi. Kalau aku diam, itu bukan karena bosan ya! Aku cuma lagi banyak pikiran, sorry kalau bikin kamu bingung.</p>
-                <p>Sayanggg, aku beneran butuh kamu di hidup aku. Semenjak ada kamu, aku punya alasan kuat untuk berkembang. Terima kasih sudah menerima aku apa adanya😢.</p>
-                <p>Aku ingin jadi penyembuh luka kamu, bukan luka baru. Aku ingin kamu bahagia bersamaku. Jangan bosan ya kalau aku manja, itu karena aku sayang banget!</p>
-                <p>Harapanku minggu ini, kita terus bersama, saling percaya, dan setia. Aku percaya kamu gaakan khianatin aku, dan aku pun begitu karena aku trauma dengan pengkhianatan. Tenang aja ya hihihi😘.</p>
-                <p>Terima kasih ya sayang sudah membaca ini. Cinta aku ke kamu gaada habisnya! ❤️</p>
-                <div class="signature">
-                    Dengan Cinta,<br>Sulthon 💖
+    <div class="container" id="mainContainer" onclick="openLetter()">
+        <div class="envelope-wrapper">
+            <div class="flap"></div>
+            <div class="side-right"></div>
+            <div class="letter">
+                <div class="letter-content">
+                    <h2>Untuk <span id="toName">Sayang</span> ❤️</h2>
+                    <p>Haiii sayangkuuuu, cintakuuu, maniskuuu, cantikkuuuu, semestakuu, dan kebanggaankuuu yang sangatttt sangattt sangatttt akuu cintaiiiii melebihi apapunnnn😘.</p>
+                    <p>Sekarang udah tanggal 02 februari 2026. Ga kerasa ya aku udah buat love letter untuk kamu selama 1 bulan ini, semoga perasaan kita tetap sama, yaitu saling mencintai satu sama lain💕.</p>
+                    <p>Di minggu ini kita gaada marah-marahann hihihi. Kalau aku diam, itu bukan karena bosan ya! Aku cuma lagi banyak pikiran, sorry kalau bikin kamu bingung sayang.</p>
+                    <p>Aku ingin jadi penyembuh luka kamu, bukan luka baru. Aku ingin kamu bahagia bersamaku. Jangan bosan ya kalau aku manja, itu karena aku sayang banget sama kamu!</p>
+                    <p>Harapanku minggu ini, kita terus bersama, saling percaya, dan setia. Aku percaya kamu gaakan khianatin aku, dan aku pun begitu. Tenang aja ya hihihi😘.</p>
+                    <p>Terima kasih ya sayang sudah membaca ini. I Love You So Much!</p>
+                    <div class="signature">Selamanya Sayang Kamu,<br>Sulthon 💖</div>
                 </div>
             </div>
         </div>
-        <div class="hint">Ketuk amplopnya ya! 👆</div>
+        <div class="hint">Klik Amplopnya 👆</div>
     </div>
 
-    <audio id="music" loop>
-        <source src="love.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="music" loop><source src="love.mp3" type="audio/mpeg"></audio>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const nameParam = urlParams.get('to') || 'Sayang';
-        document.getElementById('guestName').innerText = nameParam;
-        document.getElementById('toName').innerText = nameParam;
+        // Setup Nama dari URL
+        const name = new URLSearchParams(window.location.search).get('to') || 'Sayang';
+        document.getElementById('toName').innerText = name;
 
+        // Background Love Bergerak
+        const heartContainer = document.getElementById('heartBg');
+        const heartIcons = ['❤️', '💖', '💕', '💗', '🌸'];
+
+        function createBgHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heart.style.opacity = Math.random();
+            heartContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createBgHeart, 400);
+
+        function startApp() {
+            document.getElementById('welcome').classList.add('hide');
+            document.getElementById('music').play().catch(e => {});
+        }
+
+        function openLetter() {
+            const container = document.getElementById('mainContainer');
+            if(!container.classList.contains('open')) {
+                container.classList.add('open');
+                setTimeout(spawnSparkles, 600);
+            }
+        }
+
+        // Particle Effects
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
 
-        function init() {
-            document.getElementById('welcome').classList.add('hide');
-            document.getElementById('music').play().catch(() => {});
-        }
-
-        function openLetter() {
-            const wrapper = document.getElementById('wrapper');
-            if(!wrapper.classList.contains('open')) {
-                wrapper.classList.add('open');
-                // Posisikan wrapper agar tidak lari saat surat membesar
-                setTimeout(() => {
-                    spawnParticles();
-                }, 600);
+        function spawnSparkles() {
+            for(let i=0; i<60; i++) {
+                particles.push({
+                    x: window.innerWidth / 2,
+                    y: window.innerHeight / 2,
+                    sx: (Math.random() - 0.5) * 10,
+                    sy: (Math.random() - 0.5) * 10,
+                    size: Math.random() * 4 + 2,
+                    life: 1
+                });
             }
-        }
-
-        class Sparkle {
-            constructor() {
-                this.x = window.innerWidth / 2;
-                this.y = window.innerHeight / 2;
-                this.size = Math.random() * 5 + 2;
-                this.speedX = (Math.random() - 0.5) * 8;
-                this.speedY = (Math.random() - 0.5) * 8;
-                this.color = `hsla(${Math.random() * 30 + 330}, 100%, 70%, 0.8)`;
-                this.life = 1;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.life -= 0.015;
-            }
-            draw() {
-                ctx.globalAlpha = this.life;
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function spawnParticles() {
-            for(let i=0; i<50; i++) particles.push(new Sparkle());
         }
 
         function animate() {
@@ -306,8 +300,11 @@
             canvas.height = window.innerHeight;
             ctx.clearRect(0,0, canvas.width, canvas.height);
             particles.forEach((p, i) => {
-                p.update();
-                p.draw();
+                p.x += p.sx; p.y += p.sy; p.life -= 0.02;
+                ctx.fillStyle = `rgba(251, 111, 146, ${p.life})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                ctx.fill();
                 if(p.life <= 0) particles.splice(i, 1);
             });
             requestAnimationFrame(animate);
